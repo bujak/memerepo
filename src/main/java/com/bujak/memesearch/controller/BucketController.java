@@ -21,12 +21,8 @@ public class BucketController {
     }
 
     @PostMapping(value = "/upload")
-    public String upload(@RequestPart("file") MultipartFile file,
-                         @RequestPart("meme") String uploadRequest) throws IOException {
-        log.info(uploadRequest.toString());
-        ObjectMapper mapper = new ObjectMapper();
-        UploadRequest request = mapper.readValue(uploadRequest, UploadRequest.class);
-        return this.amazonClient.uploadFile(file);
+    public String upload(UploadRequest uploadRequest) {
+        return this.amazonClient.uploadFile(uploadRequest.getFile());
     }
 
     @DeleteMapping("/delete")
