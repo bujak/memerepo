@@ -1,4 +1,4 @@
-package com.bujak.memesearch.service;
+package com.bujak.memesearch.entity;
 
 import java.util.Set;
 
