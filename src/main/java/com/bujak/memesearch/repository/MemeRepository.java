@@ -1,7 +1,11 @@
 package com.bujak.memesearch.repository;
 
 import com.bujak.memesearch.entity.Meme;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface MemeRepository extends CrudRepository<Meme, String> {
+import java.util.List;
+
+public interface MemeRepository extends MongoRepository<Meme, String> {
+
+    List<Meme> findAll();
 }
