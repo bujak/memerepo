@@ -5,6 +5,8 @@ import com.bujak.memesearch.entity.Meme;
 import com.bujak.memesearch.repository.MemeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class MemeService {
 
@@ -23,5 +25,12 @@ public class MemeService {
                 .link(amazonClient.uploadFile(uploadRequest.getFile()))
                 .build();
         return memeRepository.save(newMeme);
+    }
+
+    public Set<Meme> find(String phrase) {
+        Set<Meme> fromName = memeRepository.findAllByNameContaining(phrase);
+        Set<Meme> fromKeywords = memeRepository.findAllByKeywordsContaining(phrase);
+        fromName.addAll(fromKeywords);
+        return fromName;
     }
 }
