@@ -9,6 +9,6 @@ import java.util.Set;
 public interface MemeRepository extends MongoRepository<Meme, String> {
 
     List<Meme> findAll();
-    Set<Meme> findAllByKeywordsContaining(String words);
-    Set<Meme> findAllByNameContaining(String words);
+    Set<Meme> findAllByNameContainsOrKeywordsContains(Set<String> words, Set<String> names);
+
 }

@@ -20,17 +20,16 @@ public class MemeService {
     }
 
     public Meme createAndSave(UploadRequest uploadRequest) {
-        Meme newMeme = Meme.builder().name(uploadRequest.getName())
+        var newMeme = Meme.builder().name(uploadRequest.getName())
                 .keywords(uploadRequest.getKeywords())
                 .link(amazonClient.uploadFile(uploadRequest.getFile()))
                 .build();
         return memeRepository.save(newMeme);
     }
 
-    public Set<Meme> find(String phrase) {
-        Set<Meme> fromName = memeRepository.findAllByNameContaining(phrase);
-        Set<Meme> fromKeywords = memeRepository.findAllByKeywordsContaining(phrase);
-        fromName.addAll(fromKeywords);
-        return fromName;
+    public Set<Meme> find(String searchPhrase) {
+        var phrases = Set.of(searchPhrase.split(" "));
+        return memeRepository.
+                findAllByNameContainsOrKeywordsContains(phrases, phrases);
     }
 }
