@@ -37,7 +37,7 @@ public class AmazonClient {
 
     @PostConstruct
     private void initializeAmazon() {
-        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        var credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
         this.s3client = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
@@ -45,8 +45,8 @@ public class AmazonClient {
     }
 
     private File convertMultiPartToFile(MultipartFile multipartFile) throws IOException {
-        File convertedFile = new File(multipartFile.getOriginalFilename());
-        FileOutputStream outputStream = new FileOutputStream(convertedFile);
+        var convertedFile = new File(multipartFile.getOriginalFilename());
+        var outputStream = new FileOutputStream(convertedFile);
         outputStream.write(multipartFile.getBytes());
         outputStream.close();
         return convertedFile;
@@ -61,10 +61,10 @@ public class AmazonClient {
     }
 
     public String uploadFile(MultipartFile multipartFile) {
-        String fileUrl = "";
+        var fileUrl = "";
         try {
-            File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
+            var file = convertMultiPartToFile(multipartFile);
+            var fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileToS3(fileName, file);
             file.delete();
@@ -75,7 +75,7 @@ public class AmazonClient {
     }
 
     public void deleteFile(String fileUrl) {
-        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") +1);
+        var fileName = fileUrl.substring(fileUrl.lastIndexOf("/") +1);
         s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     }
 
